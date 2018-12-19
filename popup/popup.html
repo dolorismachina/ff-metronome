@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    label {
+      margin-bottom: 1rem;
+    }
+
+    input {
+      margin-bottom: 1.5rem;
+    }
+
+    button {
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <label>120</label>
+  <input type="range" min="60" max="240" value="120">
+
+  <button>Start</button>
+  <script src="popup.js"></script>
+</body>
+</html>
