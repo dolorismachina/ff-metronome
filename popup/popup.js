@@ -22,7 +22,6 @@ document.querySelector('input').oninput = e => {
     active: true,
     currentWindow: true
   })
-  .then(onGot)
 }
 
 // Start / Pause button
@@ -39,12 +38,6 @@ function toggleButton() {
   b.textContent === 'Start' ? b.textContent = 'Pause' : b.textContent = 'Start'
 }
 
-function onGot(info) {
-  console.log(info[0])
-  browser.tabs.sendMessage(info[0].id, {
-    message: 'sss'
-  })
-}
 
 function onError(e) {
   console.log(e)
