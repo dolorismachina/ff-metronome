@@ -66,7 +66,7 @@ browser.runtime.onMessage.addListener((message, sender, respond) => {
         status: 'offline'
       })
     }
-    respond({
+    else respond({
       status: app.status,
       bpm: app.bpm
     })
