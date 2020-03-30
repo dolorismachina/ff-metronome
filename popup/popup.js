@@ -17,11 +17,6 @@ document.querySelector('input').oninput = e => {
     action: 'tempo',
     value: e.target.value
   })
-
-  browser.tabs.query({
-    active: true,
-    currentWindow: true
-  })
 }
 
 // Start / Pause button
