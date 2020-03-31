@@ -1,9 +1,11 @@
 browser.runtime.sendMessage({
   action: 'status'
 }).then(status => {
+  if (status.status === 'offline')
+    return
+
   document.querySelector('label').textContent = status.bpm
   document.querySelector('input').value = status.bpm
-
   if (status.status === 'playing')
     document.querySelector('button').textContent = 'Pause'
   else 
