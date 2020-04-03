@@ -1,15 +1,15 @@
 browser.runtime.sendMessage({
   action: 'status'
 }).then(status => {
+  console.log(status)
   if (status.status === 'offline')
     return
 
   document.querySelector('label').textContent = status.bpm
   document.querySelector('input').value = status.bpm
-  if (status.status === 'playing')
-    document.querySelector('button').textContent = 'Pause'
-  else 
-    document.querySelector('button').textContent = 'Start'
+  
+  document.querySelector('button').textContent = 
+    status.status === true ? 'Pause' : 'Start'
 })
 
 // Tempo Slider
