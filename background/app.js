@@ -1,3 +1,6 @@
+import AudioBufferPlayer from './AudioBufferPlayer.js'
+import OscillatorPlayer from './OscillatorPlayer.js'
+
 export default class {
   constructor () {
     this.context = new AudioContext()
@@ -14,6 +17,11 @@ export default class {
 
     this.step = 0
     this.on = true
+
+    this.oscillatorPlayer = new OscillatorPlayer(this.context)
+    this.audioBufferPlayer = new AudioBufferPlayer(this.context, './click.wav')
+
+    this.player = this.oscillatorPlayer
   }
 
   schedule () {
@@ -27,22 +35,15 @@ export default class {
   playSound(time = 0, length = this.qNoteInterval) {
     const oscillator = this.context.createOscillator()
     this.step++
-    if (this.step % 4 === 1) {
-      oscillator.frequency.value = 700
-    }
-    else {
-      oscillator.frequency.value = 350
+    const step = this.step
+    this.player.play({step, time, length})
     }
   
-    oscillator.connect(this.gain).connect(this.context.destination)
    
-    oscillator.start(time)
-    oscillator.stop(time + length)
-  }
-
   adjustGain(val) {
     this.gain.gain.value = val
   }
+
 
   adjustTempo(value) {
     this.bpm = parseInt(value)
