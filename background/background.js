@@ -1,19 +1,29 @@
 import App from './app.js'
 
 
+const PLAYERS = {
+  beep: 'Beep',
+  click: 'Click'
+}
+
 let desiredTempo = 120
-let app = null
+let soundSelected = PLAYERS.beep
+let app = new App()
 
 
 function handleMessageStatus(message, sender, respond) {
   if (!app) {
     respond({
-      status: 'offline'
+      status: 'offline',
+      sounds: Object.values(PLAYERS),
+      selectedSound: soundSelected,
     })
   }
   else respond({
     status: app.on,
-    bpm: app.bpm
+    bpm: app.bpm,
+    sounds: Object.values(PLAYERS),
+    selectedSound: soundSelected,
   })
 }
 
@@ -42,6 +52,14 @@ function handleMessageToggle(message, sender, respond) {
 }
 
 
+function handleMessageChangeSound(message, sender, respond) {
+  console.log(message, sender)
+
+  soundSelected = PLAYERS[message.sound.toLowerCase()]
+  app.changePlayer(soundSelected)
+}
+
+
 function handleMessage({message, sender, respond}, handler) {
   handler(message, sender, respond)
 }
@@ -65,6 +83,10 @@ function onMessageHandler(message, sender, respond) {
   else if (message.action === 'toggle') {
     handleMessage(data, handleMessageToggle)
   } 
+
+  else if (message.action === 'changesound') {
+    handleMessage(data, handleMessageChangeSound)
+  }
 }
 
 

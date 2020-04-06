@@ -16,18 +16,37 @@ export default class {
     this.queue = []
 
     this.step = 0
-    this.on = true
+    this.on = false
 
-    this.oscillatorPlayer = new OscillatorPlayer(this.context)
-    this.audioBufferPlayer = new AudioBufferPlayer(this.context, './click.wav')
+
+    this.players = {
+      beep: {
+        name: 'Beep',
+        player: new OscillatorPlayer(this.context)
+      },
+      click: {
+        name: 'Click',
+        player: new AudioBufferPlayer(this.context, './click.wav')
+      }
+    }
+
+
+    this.oscillatorPlayer = this.players.beep.player
+    this.audioBufferPlayer = this.players.click.player
 
     this.player = this.oscillatorPlayer
   }
 
+  
+  changePlayer(playerString) {
+    console.log('Changing player to: ', playerString)
+    this.player = this.players[playerString.toLowerCase()].player
+  }
+
+
   schedule () {
     if (this.nextNoteTime < this.context.currentTime + 0.1) {
       this.playSound(this.nextNoteTime, this.qNoteInterval * 0.5)
-      this.queue.push(this.nextNoteTime)
       this.nextNoteTime += this.qNoteInterval
     }
   }
@@ -50,3 +69,15 @@ export default class {
     this.qNoteInterval = 60 / this.bpm
   }
 }
+
+
+const arr = [
+  {
+    name: 'Beep',
+    player: OscillatorPlayer
+  },
+  {
+    name: 'Click',
+    player: AudioBufferPlayer,
+  }
+]

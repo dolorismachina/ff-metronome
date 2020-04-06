@@ -2,6 +2,8 @@ browser.runtime.sendMessage({
   action: 'status'
 }).then(status => {
   console.log(status)
+  populateSelect(status.sounds, status.selectedSound)
+
   if (status.status === 'offline')
     return
 
@@ -10,6 +12,8 @@ browser.runtime.sendMessage({
   
   document.querySelector('button').textContent = 
     status.status === true ? 'Pause' : 'Start'
+
+  
 })
 
 // Tempo Slider
@@ -29,6 +33,32 @@ document.querySelector('button').onclick = e => {
 
   toggleButton()
 }
+
+
+// Sound select.
+document.querySelector('select').oninput = e => {
+  console.log(e.target.value)
+  browser.runtime.sendMessage({
+    action: 'changesound', 
+    sound: e.target.value
+  })
+}
+
+
+function populateSelect(options, current) {
+  const frag = document.createDocumentFragment()
+  options.forEach(sound => {
+    const option = document.createElement('option')
+    option.value = sound
+    option.textContent = sound
+    frag.append(option)
+    console.log(option)
+  })
+  document.querySelector('select').append(frag)
+  document.querySelector('select').value = current
+}
+
+
 
 function toggleButton() {
   const b = document.querySelector('button')
