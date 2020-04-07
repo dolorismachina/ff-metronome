@@ -8,7 +8,7 @@
   },
 
   "browser_action": {
-    "default_icon": "metronome.png",
+    "default_icon": "/icons/metronome.png",
     "default_popup": "/popup/popup.html"
   },
 

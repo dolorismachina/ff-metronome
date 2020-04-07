@@ -1,3 +1,7 @@
+let isPlaying = false
+const button = document.querySelector('button')
+
+
 browser.runtime.sendMessage({
   action: 'status'
 }).then(status => {
@@ -7,14 +11,18 @@ browser.runtime.sendMessage({
   if (status.status === 'offline')
     return
 
+  isPlaying = status.status
   document.querySelector('label').textContent = status.bpm
   document.querySelector('input').value = status.bpm
-  
-  document.querySelector('button').textContent = 
-    status.status === true ? 'Pause' : 'Start'
-
-  
+  setButtonState(isPlaying)
 })
+
+
+function setButtonState(metronomePlaying) {
+  button.style.backgroundImage = 
+    metronomePlaying ? 'url("../icons/stop.png")' : 'url("../icons/play.png")'
+}
+
 
 // Tempo Slider
 document.querySelector('input').oninput = e => {
@@ -25,6 +33,7 @@ document.querySelector('input').oninput = e => {
   })
 }
 
+
 // Start / Pause button
 document.querySelector('button').onclick = e => {
   browser.runtime.sendMessage({
@@ -32,6 +41,7 @@ document.querySelector('button').onclick = e => {
   })
 
   toggleButton()
+  isPlaying = !isPlaying
 }
 
 
@@ -59,13 +69,12 @@ function populateSelect(options, current) {
 }
 
 
-
-function toggleButton() {
-  const b = document.querySelector('button')
-  b.textContent === 'Start' ? b.textContent = 'Pause' : b.textContent = 'Start'
+function toggleButton(on) {
+  button.style.backgroundImage = isPlaying ? 'url("../icons/play.png")' : 'url("../icons/stop.png")'
 }
 
 
 function onError(e) {
   console.log(e)
 }
+  
