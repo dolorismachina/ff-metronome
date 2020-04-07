@@ -38,17 +38,7 @@ function handleMessageTempo(message, sender, respond) {
 
 
 function handleMessageToggle(message, sender, respond) {
-  if (!app) {
-    app = new App()
-    app.adjustTempo(desiredTempo)
-  }
-
-  else if (app.on) {
-    app.on = false
-    app.adjustGain(0)
-    app.context.close()
-    app = null
-  } 
+  app.toggle()
 }
 
 

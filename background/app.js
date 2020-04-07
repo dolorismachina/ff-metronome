@@ -11,7 +11,6 @@ export default class {
     this.gain = this.context.createGain()
     this.gain.gain.value = 1
 
-    setInterval(this.schedule.bind(this), 25)
 
     this.queue = []
 
@@ -37,6 +36,20 @@ export default class {
     this.player = this.oscillatorPlayer
   }
 
+
+  toggle() {
+    if (this.on) {
+      clearInterval(this.scheduleInterval)
+    }
+    else {
+      this.scheduleInterval = setInterval(this.schedule.bind(this), 25)
+    }
+
+    this.on = !this.on
+    this.step = 0
+    this.nextNoteTime = this.context.currentTime
+  }
+
   
   changePlayer(playerString) {
     console.log('Changing player to: ', playerString)
@@ -56,7 +69,7 @@ export default class {
     this.step++
     const step = this.step
     this.player.play({step, time, length})
-    }
+  }
   
    
   adjustGain(val) {
