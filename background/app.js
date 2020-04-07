@@ -82,15 +82,3 @@ export default class {
     this.qNoteInterval = 60 / this.bpm
   }
 }
-
-
-const arr = [
-  {
-    name: 'Beep',
-    player: OscillatorPlayer
-  },
-  {
-    name: 'Click',
-    player: AudioBufferPlayer,
-  }
-]
