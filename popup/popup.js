@@ -1,6 +1,9 @@
 let isPlaying = false
-const button = document.querySelector('button')
+let select = null
+let instances = null
+let instance = null
 
+const button = document.querySelector('button')
 
 browser.runtime.sendMessage({
   action: 'status'
@@ -12,8 +15,8 @@ browser.runtime.sendMessage({
     return
 
   isPlaying = status.status
-  document.querySelector('label').textContent = status.bpm
-  document.querySelector('input').value = status.bpm
+  document.querySelector('#bpm').textContent = status.bpm
+  document.querySelector('#bpmrange').value = status.bpm
   setButtonState(isPlaying)
 })
 
@@ -26,7 +29,7 @@ function setButtonState(metronomePlaying) {
 
 // Tempo Slider
 document.querySelector('input').oninput = e => {
-  document.querySelector('label').textContent = e.target.value
+  document.querySelector('#bpm').textContent = e.target.value
   browser.runtime.sendMessage({
     action: 'tempo',
     value: e.target.value
@@ -36,6 +39,9 @@ document.querySelector('input').oninput = e => {
 
 // Start / Pause button
 document.querySelector('button').onclick = e => {
+  if (!document.querySelector('select').value)
+    return
+
   browser.runtime.sendMessage({
     action: 'toggle'
   })
@@ -46,8 +52,7 @@ document.querySelector('button').onclick = e => {
 
 
 // Sound select.
-document.querySelector('select').oninput = e => {
-  console.log(e.target.value)
+document.querySelector('select').onchange = e => {
   browser.runtime.sendMessage({
     action: 'changesound', 
     sound: e.target.value
@@ -64,8 +69,13 @@ function populateSelect(options, current) {
     frag.append(option)
     console.log(option)
   })
-  document.querySelector('select').append(frag)
-  document.querySelector('select').value = current
+  const elems = document.querySelectorAll('select')
+  elems[0].append(frag)
+  elems[0].value = current
+
+  instances = M.FormSelect.init(elems)
+  instance = M.FormSelect.getInstance(elems[0])
+  console.log(instance)
 }
 
 
