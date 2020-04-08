@@ -25,7 +25,7 @@ export default class {
       },
       click: {
         name: 'Click',
-        player: new AudioBufferPlayer(this.context, './click.wav')
+        player: new AudioBufferPlayer(this.context, './click.wav', './click-low.wav')
       }
     }
 
@@ -34,6 +34,10 @@ export default class {
     this.audioBufferPlayer = this.players.click.player
 
     this.player = this.oscillatorPlayer
+
+    // 1 = High sound
+    // 0 = Low sound
+    this.pattern = [1, 0, 0, 0]
   }
 
 
@@ -63,12 +67,13 @@ export default class {
       this.nextNoteTime += this.qNoteInterval
     }
   }
+    
 
   playSound(time = 0, length = this.qNoteInterval) {
-    const oscillator = this.context.createOscillator()
-    this.step++
+    const up = this.pattern[this.step % this.pattern.length]
     const step = this.step
-    this.player.play({step, time, length})
+    this.player.play({step, time, length}, up)
+    this.step++
   }
   
    

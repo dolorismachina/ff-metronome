@@ -6,14 +6,10 @@ export default class OscillatorPlayer {
   }
 
 
-  play({ step, time, length }) {
-    const freq = step % 4 === 1 ? 700 : 350
-
+  play({ step, time, length }, up) {
     const osc = this.context.createOscillator()
-
-    osc.frequency.value = freq
+    osc.frequency.value = up ? 700 : 350
     osc.connect(this.gain)
-
     osc.start(time)
     osc.stop(time + length)
   }
