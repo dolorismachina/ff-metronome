@@ -13,7 +13,7 @@
   },
 
   "icons": {
-    "32": "metronome.png"
+    "32": "/icons/metronome.png"
   },
 
   "permissions": [
